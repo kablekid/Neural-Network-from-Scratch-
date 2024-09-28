@@ -65,23 +65,25 @@ class numpi(list):
 
         raise ValueError("Dot product not supported for the given inputs.")
     
-    @property
-    def T(self):
+    @staticmethod
+    def T(matrix):
+        
         """Return the transpose of the matrix."""
         # Ensure it's a 2D list (matrix)
-        if not isinstance(self.matrix[0], list):
+        if not isinstance(matrix[0], list):
             raise ValueError("Transpose is only applicable to 2D matrices.")
         
         # Transpose logic
         transposed = []
-        for i in range(len(self.matrix[0])):  # Loop through columns
-            new_row = [row[i] for row in self.matrix]  # Collect i-th elements from each row
+        for i in range(len(matrix[0])):  # Loop through columns
+            new_row = [row[i] for row in matrix]  # Collect i-th elements from each row
             transposed.append(new_row)
         return transposed
     @staticmethod
     def addBias(output,bias):
-        if len(output) != len(bias):
-            raise ValueError("length must be the same")
-        sum =[ output[i]+bias[i] for i in range(len(output))]
-        return sum
+        for index ,samples in enumerate(output):
+
+            for i in range(len(samples)):
+                output[index][i] = bias[i] + output[index][i]
+            return output
 

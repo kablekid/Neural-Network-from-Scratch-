@@ -1,21 +1,25 @@
-from lib.numpi import numpi
-import numpy
+import numpy as np
+
+# Inputs and weights
+inputs = np.array([[1.03, 2.26, 1.79 , 3.64],
+                   [4.11, 1.92, 4.47, 2.92]])
+
+weights1 = np.array([[3.86, 4.47, 4.85, 4.87],
+                    [0.69, 0.08, 0.6 , 0.1 ],
+                    [0.23, 0.28, 0.73, 0.38]])
+
+weights2 = np.array([[0.97, 0.8 , 0.41 ],
+                    [0.64, 0.41, 0.05],
+                    [0.06, 0.34, 0.4 ]])
+
+# Bias vectors
+bias1 = np.array([1, 1, 1])   # 3 elements matching hidden layer size
+bias2 = np.array([1, 2, 3])  # 4 elements matching output layer size
+
+# Forward pass - Layer 1
+inputLayer = np.dot(inputs, weights1.T) + bias1  # Apply weights and add bias
 
 
-input_batch = [[1.03, 2.26, 1.79, 4.12, 3.2 , 3.86, 2.84, 2.07, 1.75, 1.6 ],
-                [3.85, 3.63, 3.59, 2.7 , 1.63, 2.31, 4.96, 3.75, 2.9 , 2.93],
-                [4.6 , 2.31, 2.49, 4.35, 4.48, 3.53, 2.52, 2.65, 1.04, 4.38],
-                [4.59, 4.19, 2.48, 1.99, 3.86, 2.89, 3.35, 1.9 , 3.95, 4.19],
-                [2.46, 3.1 , 3.33, 3.24, 1.04, 1.6 , 3.38, 2.35, 3.95, 1.75],
-                [4.27, 4.33, 2.48, 4.88, 4.73, 4.69, 2.44, 1.87, 1.01, 4.92]]
-
-weights = [ [3.86, 4.47, 4.85, 4.87, 4.57, 2.57, 1.49, 1.81, 2.54, 4.48],
-            [3.97, 4.59, 1.97, 3.94, 1.22, 3.8 , 2.2 , 4.2 , 1.56, 1.75],
-            [1.83, 2.34, 3.53, 4.93, 2.19, 4.26, 1.32, 2.89, 1.63, 2.15],
-            [3.39, 4.03, 1.62, 4.45, 4.43, 4.61, 1.54, 2.2 , 1.01, 4.24],
-            [3.99, 2.58, 2.31, 3.7 , 3.33, 1.58, 2.99, 3.82, 3.76, 3.8 ],
-            [2.13, 3.81, 2.83, 1.62, 3.97, 4.05, 4.98, 2.26, 4.19, 3.08]]
-
-
-
-numpi.dot(input_batch,weights.T)
+# Forward pass - Layer 2
+outputLayer = np.dot(inputLayer, weights2.T) + bias2  # Apply second layer weights and add bias
+print("Output Layer (before activation):\n", outputLayer)
