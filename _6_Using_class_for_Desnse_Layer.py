@@ -13,13 +13,19 @@ class DenseLayer:
         self.output = np.dot(inputs,self.weights) + self.bias
 
 
-
-
 nnfs.init()
+
+
 x,y = nnfs.datasets.spiral_data(samples=100,classes=3)
-print(x,end='\n\n')
 
-dense1 = DenseLayer(2,3)
 
-dense1.forward(x)
-print(dense1.output)
+denseLayer1 = DenseLayer(2,3)
+denseLayer2 = DenseLayer(3,7)
+denseLayer3 = DenseLayer(7,100)
+
+denseLayer1.forward(x)
+denseLayer2.forward(denseLayer1.output)
+denseLayer3.forward(denseLayer2.output)
+
+
+print(denseLayer3.weights)
