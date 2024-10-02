@@ -6,7 +6,7 @@ import nnfs.datasets
 nnfs.init() # setup to intialize to get consistent output in numpy
 X,Y = nnfs.datasets.spiral_data(samples=100,classes=3) # Create spiral data set for training
 
-
+print(Y)
 
 class DenseLayer:
     def __init__(self,numberofFeatures,numberOfNeurons) -> None:
@@ -20,8 +20,12 @@ class DenseLayer:
 
 
 class Activation:
-    def Relu(self,inputs):
+    def Relu_forward(self,inputs):
         self.output = np.maximum(0,inputs)
+    def SoftMax_forward(self,inputs):
+        exponent_values = np.exp(inputs - np.max(inputs , axis=1 , keepdims=True))
+        self.output = exponent_values/np.sum(exponent_values,axis=1,keepdims=True)
+
 
 
 InputDenseLayer = DenseLayer(2,4)
@@ -35,24 +39,31 @@ SecondHiddenDenseLayerActivation = Activation()
 
 
 
-OutputDenseLayer = DenseLayer(4,2)
+OutputDenseLayer = DenseLayer(4,3)
+OutputDenseLayerActivation = Activation()
+
 
 
 
 
 InputDenseLayer.forward(X)
-InputDenseLayerActivaiton.Relu(InputDenseLayer.output)
+InputDenseLayerActivaiton.Relu_forward(InputDenseLayer.output)
 
 
 
 FirstHiddenDenseLayer.forward(InputDenseLayerActivaiton.output)
-FirstHiddenDenseLayerActivation.Relu(FirstHiddenDenseLayer.output)
+FirstHiddenDenseLayerActivation.Relu_forward(FirstHiddenDenseLayer.output)
 
 SecondHiddenDenseLayer.forward(FirstHiddenDenseLayerActivation.output)
-SecondHiddenDenseLayerActivation.Relu(SecondHiddenDenseLayer.output)
+SecondHiddenDenseLayerActivation.Relu_forward(SecondHiddenDenseLayer.output)
 
 
 OutputDenseLayer.forward(SecondHiddenDenseLayerActivation.output)
+OutputDenseLayerActivation.SoftMax_forward(OutputDenseLayer.output)
+
+
+
+print(OutputDenseLayerActivation.output)
 
 
 
