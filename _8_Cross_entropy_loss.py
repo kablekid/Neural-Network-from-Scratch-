@@ -22,12 +22,28 @@ softmax_output = np.array([[0.7,0.1,0.2],
                            [0.1,0.5,0.4],
                            [0.02,0.9,0.08]])
 
-class_targets = [0,1,1]
-
-print(softmax_output[[0,1,2], class_targets])
-
-print(-np.log(softmax_output[range(len(softmax_output)),class_targets]))
+class_targets = [0,1,1]  # the correct solution  index 0 in the first array(0.7)  0.1 in the second ...
+print(softmax_output[ [0,1,2], class_targets] ) # advanced slicing in python numpy list[row(list) , column(list)]
+x =  softmax_output[ [0,1,2], class_targets]  # advanced slicing in python numpy list[row(list) , column(list)]
+print(-np.log(x))
 neg_log = -np.log(softmax_output[range(len(softmax_output)),class_targets])
 average_loss = np.mean(neg_log)
-
 print(average_loss)
+
+#implemnting a class with it 
+
+class Loss:
+    def Loss_CategoricalCrossentropy(self,Predicted_Value,Expected_TrueValue):
+        self.Predicted_Value = Predicted_Value
+        self.Expected_TrueValue = Expected_TrueValue
+        pred_clipped = np.clip(Predicted_Value, 1e-7, 1 - 1e-7)
+        self.CategoricalCrossentropy_loss = -np.log(pred_clipped[[range(pred_clipped.shape[0])],Expected_TrueValue])
+        return self.CategoricalCrossentropy_loss
+    
+    def Mean_Loss(self):
+        return np.mean(self.CategoricalCrossentropy_loss)
+
+Loss1 = Loss()
+
+print(Loss1.Loss_CategoricalCrossentropy(softmax_output,class_targets))
+print(Loss1.Mean_Loss())
